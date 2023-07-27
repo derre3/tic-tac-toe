@@ -15,16 +15,14 @@ const player = (name, marker) => {
 };
 
 const gameBoard = (() => {
-  const size = 3;
-  const board = [];
-  const cell = 0;
-
-  for (let i = 0; i < size; i++) {
-    board[i] = [];
-    for (let j = 0; j < size; j++) {
-      board[i].push(cell);
+  const resetBoard = () => {
+    for (let i = 0; i < size; i++) {
+      board[i] = [];
+      for (let j = 0; j < size; j++) {
+        board[i].push(cell);
+      }
     }
-  }
+  };
 
   const addMarker = (marker, row, column) => {
     if (board[row][column] === 0) {
@@ -34,8 +32,14 @@ const gameBoard = (() => {
 
   const getBoard = () => board;
 
+  const size = 3;
+  const board = [];
+  const cell = 0;
+  resetBoard();
+
   return {
     getBoard,
+    resetBoard,
     addMarker,
   };
 })();
@@ -62,6 +66,7 @@ const gameFlow = (() => {
       prompt("Pick a Row"),
       prompt("Pick a Column")
     );
+    // Check board array for win conditions
     if (
       (gameBoard.getBoard()[0][0] === activePlayer.getMarker() &&
         gameBoard.getBoard()[0][1] === activePlayer.getMarker() &&
@@ -89,11 +94,11 @@ const gameFlow = (() => {
         gameBoard.getBoard()[1][2] === activePlayer.getMarker()) // Win condition #8
     ) {
       console.table(gameBoard.getBoard()); // Placeholder display of the board
+      gameBoard.resetBoard();
       return console.log(activePlayer.getName(), "Wins!!"); //Placeholder log
     }
     switchTurn();
     newRound();
-
     playRound();
   };
 
