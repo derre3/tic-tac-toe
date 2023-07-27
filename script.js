@@ -82,7 +82,7 @@ const gameFlow = (() => {
         gameBoard.getBoard()[2][2] === activePlayer.getMarker()) || // Win condition #4
       (gameBoard.getBoard()[0][2] === activePlayer.getMarker() &&
         gameBoard.getBoard()[1][1] === activePlayer.getMarker() &&
-        gameBoard.getBoard()[0][2] === activePlayer.getMarker()) || // Win condition #5
+        gameBoard.getBoard()[2][0] === activePlayer.getMarker()) || // Win condition #5
       (gameBoard.getBoard()[2][2] === activePlayer.getMarker() &&
         gameBoard.getBoard()[1][1] === activePlayer.getMarker() &&
         gameBoard.getBoard()[0][0] === activePlayer.getMarker()) || // Win condition #6
