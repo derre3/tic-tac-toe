@@ -35,6 +35,18 @@ const gameBoard = (() => {
 
   const getBoard = () => board;
 
+  const flattenBoard = () => {
+    //flattens the 2d board array into a single array
+    const board = gameBoard.getBoard();
+    let arrBoard = [];
+    board.forEach((row) => {
+      row.forEach((cell) => {
+        arrBoard.push(cell);
+      });
+    });
+    return arrBoard;
+  };
+
   const size = 3;
   const board = [];
   const cell = 0;
@@ -44,6 +56,7 @@ const gameBoard = (() => {
     getBoard,
     resetBoard,
     addMarker,
+    flattenBoard,
   };
 })();
 
@@ -61,18 +74,6 @@ const gameFlow = (() => {
   const endRound = () => {
     gameBoard.resetBoard();
     activePlayer = players[0];
-  };
-
-  const flattenBoard = () => {
-    //flattens the 2d board array into a single array
-    const board = gameBoard.getBoard();
-    let arrBoard = [];
-    board.forEach((row) => {
-      row.forEach((cell) => {
-        arrBoard.push(cell);
-      });
-    });
-    return arrBoard;
   };
 
   // Check board array for win conditions
@@ -106,7 +107,7 @@ const gameFlow = (() => {
       console.table(gameBoard.getBoard()); // Placeholder display of the board
       console.log(activePlayer.getName(), "Wins!!"); //Placeholder log
       return "win";
-    } else if (!flattenBoard().includes(0)) {
+    } else if (!gameBoard.flattenBoard().includes(0)) {
       // check for available space in the board
       console.log("Draw Game");
       return "draw";
