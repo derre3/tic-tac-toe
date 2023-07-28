@@ -25,9 +25,12 @@ const gameBoard = (() => {
   };
 
   const addMarker = (marker, row, column) => {
-    if (board[row][column] === 0) {
-      board[row][column] = marker;
+    // check if cell is already occupied
+    if (board[row][column] !== 0) {
+      alert("Move not available, please try again"); //Placeholder alert
+      gameFlow.playRound();
     }
+    board[row][column] = marker;
   };
 
   const getBoard = () => board;
@@ -55,8 +58,9 @@ const gameFlow = (() => {
   };
   const getActivePlayer = () => activePlayer;
 
-  const newRound = () => {
-    // console.log(`${getActivePlayer().getName()} Turn`);
+  const endRound = () => {
+    gameBoard.resetBoard();
+    activePlayer = players[0];
   };
 
   const flattenBoard = () => {
@@ -117,11 +121,11 @@ const gameFlow = (() => {
       prompt("Pick a Row"),
       prompt("Pick a Column")
     );
-    if (checkBoard() === "win" || checkBoard() === "draw")
-      return gameBoard.resetBoard();
-    switchTurn();
-    newRound();
-    playRound();
+    if (!checkBoard()) {
+      switchTurn();
+      playRound();
+    }
+    return endRound();
   };
 
   return {
