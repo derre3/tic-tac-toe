@@ -56,17 +56,23 @@ const gameFlow = (() => {
   const getActivePlayer = () => activePlayer;
 
   const newRound = () => {
-    console.log(`${getActivePlayer().getName()} Turn`); //Placeholder log
+    // console.log(`${getActivePlayer().getName()} Turn`);
   };
 
-  const playRound = () => {
-    console.table(gameBoard.getBoard()); // Placeholder display of the board
-    gameBoard.addMarker(
-      activePlayer.getMarker(),
-      prompt("Pick a Row"),
-      prompt("Pick a Column")
-    );
-    // Check board array for win conditions
+  const flattenBoard = () => {
+    //flattens the 2d board array into a single array
+    const board = gameBoard.getBoard();
+    let arrBoard = [];
+    board.forEach((row) => {
+      row.forEach((cell) => {
+        arrBoard.push(cell);
+      });
+    });
+    return arrBoard;
+  };
+
+  // Check board array for win conditions
+  const checkBoard = () => {
     if (
       (gameBoard.getBoard()[0][0] === activePlayer.getMarker() &&
         gameBoard.getBoard()[0][1] === activePlayer.getMarker() &&
@@ -94,9 +100,25 @@ const gameFlow = (() => {
         gameBoard.getBoard()[1][2] === activePlayer.getMarker()) // Win condition #8
     ) {
       console.table(gameBoard.getBoard()); // Placeholder display of the board
-      gameBoard.resetBoard();
-      return console.log(activePlayer.getName(), "Wins!!"); //Placeholder log
+      console.log(activePlayer.getName(), "Wins!!"); //Placeholder log
+      return "win";
+    } else if (!flattenBoard().includes(0)) {
+      // check for available space in the board
+      console.log("Draw Game");
+      return "draw";
     }
+  };
+
+  const playRound = () => {
+    console.table(gameBoard.getBoard()); // Placeholder display of the board
+    console.log(`${getActivePlayer().getName()} Turn`);
+    gameBoard.addMarker(
+      activePlayer.getMarker(),
+      prompt("Pick a Row"),
+      prompt("Pick a Column")
+    );
+    if (checkBoard() === "win" || checkBoard() === "draw")
+      return gameBoard.resetBoard();
     switchTurn();
     newRound();
     playRound();
