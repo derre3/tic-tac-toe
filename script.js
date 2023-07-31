@@ -125,12 +125,12 @@ const boardDom = (() => {
     });
   });
 
-  const updateBoard = () => {
+  const updateBoard = (playerOneMarker = "X", playerTwoMarker = "O") => {
     for (let i = 0; i < board.length; i++) {
       if (board[i] === 1) {
-        cells[i].textContent = "X";
+        cells[i].textContent = playerOneMarker;
       } else if (board[i] === 2) {
-        cells[i].textContent = "O";
+        cells[i].textContent = playerTwoMarker;
       } else cells[i].textContent = "";
     }
   };
