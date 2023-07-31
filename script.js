@@ -23,11 +23,12 @@ const gameBoard = (() => {
 
   const addMarker = (marker, position) => {
     // check if cell is already occupied
-    if (board[position] !== 0) {
-      return alert("Move not available, please try again"); //Placeholder alert
+    if (board[position] === 0) {
+      board[position] = marker;
+      boardDom.updateBoard();
+      return "mark added to board";
     }
-    board[position] = marker;
-    boardDom.updateBoard();
+    alert("Cell is already occupied, please try again"); //Placeholder alert
   };
 
   const getBoard = () => board;
@@ -90,8 +91,7 @@ const gameFlow = (() => {
         gameBoard.getBoard()[3] === activePlayer.getMarker() &&
         gameBoard.getBoard()[5] === activePlayer.getMarker()) // Win condition #8
     ) {
-      console.log(gameBoard.getBoard()); // Placeholder display of the board
-      console.log(activePlayer.getName(), "Wins!!"); //Placeholder log
+      console.log(activePlayer.getName(), "Wins!!"); //Placeholder end log
       return "win";
     } else if (!gameBoard.getBoard().includes(0)) {
       // check for available space in the board
@@ -101,13 +101,11 @@ const gameFlow = (() => {
   };
 
   const playRound = (boardPosition) => {
-    console.log(gameBoard.getBoard()); // Placeholder display of the board
-    console.log(`${getActivePlayer().getName()} Turn`);
-    gameBoard.addMarker(activePlayer.getMarker(), boardPosition);
-    if (checkBoard()) {
-      return endRound();
-    }
+    if (!gameBoard.addMarker(activePlayer.getMarker(), boardPosition)) return;
+    if (checkBoard()) return endRound();
     switchTurn();
+    console.log(gameBoard.getBoard()); // Placeholder display of the board
+    console.log(`${getActivePlayer().getName()} Turn`); // Placeholder player turn display
   };
 
   return {
