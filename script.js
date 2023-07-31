@@ -24,10 +24,10 @@ const gameBoard = (() => {
   const addMarker = (marker, position) => {
     // check if cell is already occupied
     if (board[position] !== 0) {
-      alert("Move not available, please try again"); //Placeholder alert
-      gameFlow.playRound();
+      return alert("Move not available, please try again"); //Placeholder alert
     }
     board[position] = marker;
+    boardDom.updateBoard();
   };
 
   const getBoard = () => board;
@@ -35,6 +35,7 @@ const gameBoard = (() => {
   const size = 9;
   const board = [];
   const cell = 0;
+
   resetBoard();
 
   return {
@@ -57,6 +58,7 @@ const gameFlow = (() => {
 
   const endRound = () => {
     gameBoard.resetBoard();
+    boardDom.updateBoard();
     activePlayer = players[0];
   };
 
@@ -98,19 +100,44 @@ const gameFlow = (() => {
     }
   };
 
-  const playRound = () => {
+  const playRound = (boardPosition) => {
     console.log(gameBoard.getBoard()); // Placeholder display of the board
     console.log(`${getActivePlayer().getName()} Turn`);
-    gameBoard.addMarker(activePlayer.getMarker(), prompt("Pick Position"));
-    if (!checkBoard()) {
-      switchTurn();
-      playRound();
+    gameBoard.addMarker(activePlayer.getMarker(), boardPosition);
+    if (checkBoard()) {
+      return endRound();
     }
-    return endRound();
+    switchTurn();
   };
 
   return {
     playRound,
     getActivePlayer,
+  };
+})();
+
+const boardDom = (() => {
+  const cells = Array.from(document.querySelectorAll(".cell"));
+  const board = gameBoard.getBoard();
+
+  cells.forEach((cell) => {
+    cell.addEventListener("click", () => {
+      const boardPosition = cells.indexOf(cell);
+      gameFlow.playRound(boardPosition);
+    });
+  });
+
+  const updateBoard = () => {
+    for (let i = 0; i < board.length; i++) {
+      if (board[i] === 1) {
+        cells[i].textContent = "X";
+      } else if (board[i] === 2) {
+        cells[i].textContent = "O";
+      } else cells[i].textContent = "";
+    }
+  };
+
+  return {
+    updateBoard,
   };
 })();
