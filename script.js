@@ -25,7 +25,6 @@ const gameBoard = (() => {
     // check if cell is already occupied
     if (board[position] === 0) {
       board[position] = marker;
-      boardDom.updateBoard();
       return "mark added to board";
     }
     alert("Cell is already occupied, please try again"); //Placeholder alert
@@ -58,8 +57,8 @@ const gameFlow = (() => {
   const getActivePlayer = () => activePlayer;
 
   const endRound = () => {
-    gameBoard.resetBoard();
     boardDom.updateBoard();
+    gameBoard.resetBoard();
     activePlayer = players[0];
   };
 
@@ -95,7 +94,7 @@ const gameFlow = (() => {
       return "win";
     } else if (!gameBoard.getBoard().includes(0)) {
       // check for available space in the board
-      console.log("Draw Game");
+      console.log("Draw Game"); //Placeholder draw log
       return "draw";
     }
   };
@@ -103,6 +102,7 @@ const gameFlow = (() => {
   const playRound = (boardPosition) => {
     if (!gameBoard.addMarker(activePlayer.getMarker(), boardPosition)) return;
     if (checkBoard()) return endRound();
+    boardDom.updateBoard();
     switchTurn();
     console.log(gameBoard.getBoard()); // Placeholder display of the board
     console.log(`${getActivePlayer().getName()} Turn`); // Placeholder player turn display
