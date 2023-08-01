@@ -8,9 +8,13 @@
 const player = (name, marker) => {
   const getName = () => name;
   const getMarker = () => marker;
+  const changeName = (newName) => {
+    name = newName;
+  };
   return {
     getName,
     getMarker,
+    changeName,
   };
 };
 
