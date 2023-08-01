@@ -69,7 +69,7 @@ const gameFlow = (() => {
   };
 
   const endRound = () => {
-    boardDom.updateBoard();
+    boardDom.hideDisplay();
     gameBoard.resetBoard();
     activePlayer = players[0];
   };
@@ -102,11 +102,13 @@ const gameFlow = (() => {
         gameBoard.getBoard()[3] === activePlayer.getMarker() &&
         gameBoard.getBoard()[5] === activePlayer.getMarker()) // Win condition #8
     ) {
-      console.log(activePlayer.getName(), "Wins!!"); //Placeholder end log
+      boardDom.updateBoard();
+      boardDom.displayRoundStatus(`${activePlayer.getName()} Wins!!!`);
       return "win";
     } else if (!gameBoard.getBoard().includes(0)) {
       // check for available space in the board
-      console.log("Draw Game"); //Placeholder draw log
+      boardDom.updateBoard();
+      boardDom.displayRoundStatus(`Draw game...`);
       return "draw";
     }
   };
@@ -114,6 +116,7 @@ const gameFlow = (() => {
   const playRound = (boardPosition) => {
     if (!gameBoard.addMarker(activePlayer.getMarker(), boardPosition)) return;
     if (checkBoard()) return endRound();
+    switchTurn();
     boardDom.updateBoard();
     switchTurn();
     console.log(gameBoard.getBoard()); // Placeholder display of the board
@@ -138,17 +141,40 @@ const boardDom = (() => {
     });
   });
 
-  const updateBoard = (playerOneMarker = "X", playerTwoMarker = "O") => {
+  const updateBoard = () => {
     for (let i = 0; i < board.length; i++) {
       if (board[i] === 1) {
-        cells[i].textContent = playerOneMarker;
+        cells[i].textContent = "X";
       } else if (board[i] === 2) {
-        cells[i].textContent = playerTwoMarker;
+        cells[i].textContent = "O";
       } else cells[i].textContent = "";
     }
+    displayTurn();
+    displayRoundStatus("");
   };
 
+  const displayTurn = () => {
+    let activePlayer = gameFlow.getActivePlayer();
+    activePlayer.getMarker() === 1 ? (marker = "X") : (marker = "O");
+    turnDisplay[0].textContent = `${activePlayer.getName()}'s Turn`;
+    turnDisplay[1].textContent = `Using: ${marker}`;
+  };
+
+  const hideDisplay = () => {
+    turnDisplay.forEach((display) => {
+      display.textContent = "";
+    });
+  };
+
+  const displayRoundStatus = (message) => {
+    roundDisplay.textContent = message;
+    // turnDisplay.forEach((display) => {
+    //   display.textContent = "";
+    // });
+  };
   return {
     updateBoard,
+    displayRoundStatus,
+    hideDisplay,
   };
 })();
