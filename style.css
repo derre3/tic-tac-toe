@@ -2,18 +2,24 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Courier New", Courier, monospace;
+}
+
+body {
+  background-color: #333333;
 }
 
 h1 {
   text-align: center;
   padding-top: 2rem;
+  color: #ffffff;
 }
 
 .board {
   /* display: flex; */
   justify-content: center;
   align-items: center;
-  border: 1px black solid;
+  border: 1px #333333 solid;
 }
 
 .row {
@@ -29,14 +35,20 @@ h1 {
   align-items: center;
   width: 150px;
   height: 150px;
-  background-color: rgb(139, 97, 177);
-  border: 1px black solid;
+  background-color: #ffffff;
+  border: 2px #333333 solid;
+}
+
+.cell:hover {
+  background-color: #ffffffd0;
+  transition: 150ms;
+  cursor: pointer;
 }
 
 .main {
   display: flex;
   justify-content: center;
-  padding: 64px;
+  padding: 16px;
 }
 
 .turn-container {
@@ -48,13 +60,15 @@ h1 {
   margin-top: 50px;
   font-size: 1.5rem;
   gap: 12px;
+
+  color: #ffffff;
 }
 
 form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 1rem;
 }
 
 form > input[type="text"] {
@@ -62,9 +76,22 @@ form > input[type="text"] {
   padding: 5px;
   padding-left: 1ch;
 }
-#form-button {
+
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100px;
   height: 25px;
+  padding: 20px;
+  font-size: 1rem;
+}
+
+.reset-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 24px;
 }
 
 .not-visible {

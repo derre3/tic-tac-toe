@@ -68,7 +68,9 @@ const gameFlow = (() => {
   };
 
   const endRound = () => {
-    boardDom.hideDisplay();
+    boardDom.changeDisplayTurn(
+      "Press Restart or Choose a new tile to play again!"
+    );
     gameBoard.resetBoard();
     activePlayer = players[0];
   };
@@ -107,7 +109,7 @@ const gameFlow = (() => {
     } else if (!gameBoard.getBoard().includes(0)) {
       // check for available space in the board
       boardDom.updateBoard();
-      boardDom.displayRoundStatus(`Draw game...`);
+      boardDom.displayRoundStatus("Stalemate!");
       return "draw";
     }
   };
@@ -135,6 +137,7 @@ const boardDom = (() => {
   const form = document.querySelector("form");
   const formButton = document.querySelector("#form-button");
   const nameInput = document.querySelectorAll("input[type='text']");
+  const resetButton = document.querySelector("#reset");
 
   formButton.addEventListener("click", (e) => {
     nameInput[0].value === "" ? (nameInput[0].value = "Player One") : "";
@@ -150,7 +153,15 @@ const boardDom = (() => {
     cell.addEventListener("click", () => {
       const boardPosition = cells.indexOf(cell);
       gameFlow.playRound(boardPosition);
+      cell.classList.remove("hover");
     });
+  });
+
+  resetButton.addEventListener("click", () => {
+    form.classList.toggle("not-visible");
+    main.classList.toggle("not-visible");
+    changeDisplayTurn();
+    displayRoundStatus("");
   });
 
   const updateBoard = () => {
@@ -168,25 +179,21 @@ const boardDom = (() => {
   const displayTurn = () => {
     let activePlayer = gameFlow.getActivePlayer();
     activePlayer.getMarker() === 1 ? (marker = "X") : (marker = "O");
-    turnDisplay[0].textContent = `${activePlayer.getName()}'s Turn`;
+    turnDisplay[0].textContent = `${activePlayer.getName()} Turn`;
     turnDisplay[1].textContent = `Using: ${marker}`;
   };
 
-  const hideDisplay = () => {
-    turnDisplay.forEach((display) => {
-      display.textContent = "";
-    });
+  const changeDisplayTurn = (message = "") => {
+    turnDisplay[0].textContent = "";
+    turnDisplay[1].textContent = message;
   };
 
   const displayRoundStatus = (message) => {
     roundDisplay.textContent = message;
-    // turnDisplay.forEach((display) => {
-    //   display.textContent = "";
-    // });
   };
   return {
     updateBoard,
     displayRoundStatus,
-    hideDisplay,
+    changeDisplayTurn,
   };
 })();
