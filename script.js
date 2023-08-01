@@ -60,6 +60,14 @@ const gameFlow = (() => {
   };
   const getActivePlayer = () => activePlayer;
 
+  const startGame = (playerOneName, playerTwoName) => {
+    players[0].changeName(playerOneName);
+    players[1].changeName(playerTwoName);
+    gameBoard.resetBoard();
+    activePlayer = players[0];
+    boardDom.updateBoard();
+  };
+
   const endRound = () => {
     boardDom.updateBoard();
     gameBoard.resetBoard();
@@ -115,6 +123,7 @@ const gameFlow = (() => {
   return {
     playRound,
     getActivePlayer,
+    startGame,
   };
 })();
 
