@@ -31,7 +31,6 @@ const gameBoard = (() => {
       board[position] = marker;
       return "mark added to board";
     }
-    alert("Cell is already occupied, please try again"); //Placeholder alert
   };
 
   const getBoard = () => board;
@@ -50,7 +49,7 @@ const gameBoard = (() => {
 })();
 
 const gameFlow = (() => {
-  const players = [player("John", 1), player("Jane", 2)];
+  const players = [player("Player One", 1), player("Player Two", 2)];
   let activePlayer = players[0];
 
   const switchTurn = () => {
@@ -118,9 +117,6 @@ const gameFlow = (() => {
     if (checkBoard()) return endRound();
     switchTurn();
     boardDom.updateBoard();
-    switchTurn();
-    console.log(gameBoard.getBoard()); // Placeholder display of the board
-    console.log(`${getActivePlayer().getName()} Turn`); // Placeholder player turn display
   };
 
   return {
@@ -133,6 +129,22 @@ const gameFlow = (() => {
 const boardDom = (() => {
   const cells = Array.from(document.querySelectorAll(".cell"));
   const board = gameBoard.getBoard();
+  const turnDisplay = document.querySelectorAll(".turn-display");
+  const roundDisplay = document.querySelector(".round-status");
+  const main = document.querySelector(".main");
+  const form = document.querySelector("form");
+  const formButton = document.querySelector("#form-button");
+  const nameInput = document.querySelectorAll("input[type='text']");
+
+  formButton.addEventListener("click", (e) => {
+    nameInput[0].value === "" ? (nameInput[0].value = "Player One") : "";
+    nameInput[1].value === "" ? (nameInput[1].value = "Player Two") : "";
+
+    e.preventDefault();
+    form.classList.toggle("not-visible");
+    main.classList.toggle("not-visible");
+    gameFlow.startGame(nameInput[0].value, nameInput[1].value);
+  });
 
   cells.forEach((cell) => {
     cell.addEventListener("click", () => {
