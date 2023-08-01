@@ -8,23 +8,47 @@
     <script src="script.js" defer></script>
   </head>
   <body>
+    <h1>Tic-Tac-Toe</h1>
     <div class="container">
-      <h1>Tic-Tac-Toe</h1>
-      <div class="board">
-        <div class="row">
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
+      <div class="turn-container">
+        <p class="turn-display"></p>
+        <p class="turn-display"></p>
+        <p class="round-status"></p>
+        <div class="player-info">
+          <form>
+            <input
+              type="text"
+              name="player-one"
+              id="player-one"
+              placeholder="Player One"
+            />
+            <input
+              type="text"
+              name="player-two"
+              id="player-two"
+              placeholder="Player Two"
+            />
+            <button id="form-button">Start!</button>
+          </form>
         </div>
-        <div class="row">
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
-        </div>
-        <div class="row">
-          <div class="cell"></div>
-          <div class="cell"></div>
-          <div class="cell"></div>
+      </div>
+      <div class="main not-visible">
+        <div class="board">
+          <div class="row">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+          </div>
+          <div class="row">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+          </div>
+          <div class="row">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+          </div>
         </div>
       </div>
     </div>

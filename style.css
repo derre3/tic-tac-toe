@@ -4,10 +4,16 @@
   box-sizing: border-box;
 }
 
+h1 {
+  text-align: center;
+  padding-top: 2rem;
+}
+
 .board {
   /* display: flex; */
   justify-content: center;
   align-items: center;
+  border: 1px black solid;
 }
 
 .row {
@@ -17,11 +23,50 @@
 }
 
 .cell {
+  font-size: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 100px;
-  background-color: aqua;
+  width: 150px;
+  height: 150px;
+  background-color: rgb(139, 97, 177);
   border: 1px black solid;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  padding: 64px;
+}
+
+.turn-container {
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  font-size: 1.5rem;
+  gap: 12px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+form > input[type="text"] {
+  font-size: 1rem;
+  padding: 5px;
+  padding-left: 1ch;
+}
+#form-button {
+  width: 100px;
+  height: 25px;
+}
+
+.not-visible {
+  display: none;
 }
