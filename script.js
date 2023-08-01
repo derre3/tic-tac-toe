@@ -162,6 +162,9 @@ const boardDom = (() => {
     main.classList.toggle("not-visible");
     changeDisplayTurn();
     displayRoundStatus("");
+    nameInput.forEach((name) => {
+      name.value = "";
+    });
   });
 
   const updateBoard = () => {
