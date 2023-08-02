@@ -1,10 +1,4 @@
-// store the board status as an array inside game object
-// players info stored in objects
-// object to control gameflow
-
-// gameboard and gameflow can use modules
-// players can be created with factories
-
+// player factory used by gameFlow
 const player = (name, marker) => {
   const getName = () => name;
   const getMarker = () => marker;
@@ -18,6 +12,8 @@ const player = (name, marker) => {
   };
 };
 
+// gameBoard only manipulates the board array
+//  also used by gameFlow
 const gameBoard = (() => {
   const resetBoard = () => {
     for (let i = 0; i < size; i++) {
@@ -48,8 +44,11 @@ const gameBoard = (() => {
   };
 })();
 
+// game logic is stored here
 const gameFlow = (() => {
+  // default player names
   const players = [player("Player One", 1), player("Player Two", 2)];
+  // starting player will always be Player One
   let activePlayer = players[0];
 
   const switchTurn = () => {
@@ -59,9 +58,11 @@ const gameFlow = (() => {
   };
   const getActivePlayer = () => activePlayer;
 
+  // used by the start button in the DOM code section
   const startGame = (playerOneName, playerTwoName) => {
     players[0].changeName(playerOneName);
     players[1].changeName(playerTwoName);
+    // resets activePlayer and board if restart button is pressed mid-game
     gameBoard.resetBoard();
     activePlayer = players[0];
     boardDom.updateBoard();
@@ -115,7 +116,9 @@ const gameFlow = (() => {
   };
 
   const playRound = (boardPosition) => {
+    // returns nothing if cell is not available
     if (!gameBoard.addMarker(activePlayer.getMarker(), boardPosition)) return;
+    // check for round end conditions
     if (checkBoard()) return endRound();
     switchTurn();
     boardDom.updateBoard();
@@ -129,6 +132,7 @@ const gameFlow = (() => {
 })();
 
 const boardDom = (() => {
+  // queries used by the DOM
   const cells = Array.from(document.querySelectorAll(".cell"));
   const board = gameBoard.getBoard();
   const turnDisplay = document.querySelectorAll(".turn-display");
@@ -140,10 +144,11 @@ const boardDom = (() => {
   const resetButton = document.querySelector("#reset");
 
   formButton.addEventListener("click", (e) => {
+    // if name input is empty, set default value
     nameInput[0].value === "" ? (nameInput[0].value = "Player One") : "";
     nameInput[1].value === "" ? (nameInput[1].value = "Player Two") : "";
-
     e.preventDefault();
+    //when the name input is visible, the gameboard is not
     form.classList.toggle("not-visible");
     main.classList.toggle("not-visible");
     gameFlow.startGame(nameInput[0].value, nameInput[1].value);
@@ -153,21 +158,24 @@ const boardDom = (() => {
     cell.addEventListener("click", () => {
       const boardPosition = cells.indexOf(cell);
       gameFlow.playRound(boardPosition);
-      cell.classList.remove("hover");
     });
   });
 
   resetButton.addEventListener("click", () => {
+    // go back to name input screen structure
     form.classList.toggle("not-visible");
     main.classList.toggle("not-visible");
     changeDisplayTurn();
     displayRoundStatus("");
+    // resets nameInput to empty value
     nameInput.forEach((name) => {
       name.value = "";
     });
   });
 
   const updateBoard = () => {
+    // gamelogic is using ints 1 and 2 for markers
+    // this just translates 1 to X and 2 to O
     for (let i = 0; i < board.length; i++) {
       if (board[i] === 1) {
         cells[i].textContent = "X";
@@ -180,17 +188,20 @@ const boardDom = (() => {
   };
 
   const displayTurn = () => {
+    // translates the active player marker to a div on screen
     let activePlayer = gameFlow.getActivePlayer();
     activePlayer.getMarker() === 1 ? (marker = "X") : (marker = "O");
     turnDisplay[0].textContent = `${activePlayer.getName()} Turn`;
     turnDisplay[1].textContent = `Using: ${marker}`;
   };
 
+  // displays the end round message to restart the game
   const changeDisplayTurn = (message = "") => {
     turnDisplay[0].textContent = "";
     turnDisplay[1].textContent = message;
   };
 
+  // displays the end round message(win or stalemate)
   const displayRoundStatus = (message) => {
     roundDisplay.textContent = message;
   };

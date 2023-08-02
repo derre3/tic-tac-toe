@@ -15,10 +15,13 @@ h1 {
   color: #ffffff;
 }
 
-.board {
-  /* display: flex; */
+.main {
+  display: flex;
   justify-content: center;
-  align-items: center;
+  padding: 16px;
+}
+
+.board {
   border: 1px #333333 solid;
 }
 
@@ -37,18 +40,13 @@ h1 {
   height: 150px;
   background-color: #ffffff;
   border: 2px #333333 solid;
+  color: #333333;
 }
 
 .cell:hover {
   background-color: #ffffffd0;
   transition: 150ms;
   cursor: pointer;
-}
-
-.main {
-  display: flex;
-  justify-content: center;
-  padding: 16px;
 }
 
 .turn-container {
