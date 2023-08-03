@@ -35,8 +35,6 @@ const gameBoard = (() => {
   const board = [];
   const cell = 0;
 
-  resetBoard();
-
   return {
     getBoard,
     resetBoard,
