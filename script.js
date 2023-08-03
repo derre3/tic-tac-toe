@@ -76,33 +76,23 @@ const gameFlow = (() => {
     activePlayer = players[0];
   };
 
+  const checkWinCondition = (boardPosition) => {
+    return boardPosition.every(
+      (index) => gameBoard.getBoard()[index] === activePlayer.getMarker()
+    );
+  };
+
   // Check board array for win conditions
-  const checkBoard = () => {
+  const checkRoundStatus = () => {
     if (
-      (gameBoard.getBoard()[0] === activePlayer.getMarker() &&
-        gameBoard.getBoard()[1] === activePlayer.getMarker() &&
-        gameBoard.getBoard()[2] === activePlayer.getMarker()) || // Win condition #1
-      (gameBoard.getBoard()[0] === activePlayer.getMarker() &&
-        gameBoard.getBoard()[3] === activePlayer.getMarker() &&
-        gameBoard.getBoard()[6] === activePlayer.getMarker()) || // Win condition #2
-      (gameBoard.getBoard()[0] === activePlayer.getMarker() &&
-        gameBoard.getBoard()[4] === activePlayer.getMarker() &&
-        gameBoard.getBoard()[8] === activePlayer.getMarker()) || // Win condition #3
-      (gameBoard.getBoard()[2] === activePlayer.getMarker() &&
-        gameBoard.getBoard()[5] === activePlayer.getMarker() &&
-        gameBoard.getBoard()[8] === activePlayer.getMarker()) || // Win condition #4
-      (gameBoard.getBoard()[2] === activePlayer.getMarker() &&
-        gameBoard.getBoard()[4] === activePlayer.getMarker() &&
-        gameBoard.getBoard()[6] === activePlayer.getMarker()) || // Win condition #5
-      (gameBoard.getBoard()[8] === activePlayer.getMarker() &&
-        gameBoard.getBoard()[7] === activePlayer.getMarker() &&
-        gameBoard.getBoard()[6] === activePlayer.getMarker()) || // Win condition #6
-      (gameBoard.getBoard()[4] === activePlayer.getMarker() &&
-        gameBoard.getBoard()[1] === activePlayer.getMarker() &&
-        gameBoard.getBoard()[7] === activePlayer.getMarker()) || // Win condition #7
-      (gameBoard.getBoard()[4] === activePlayer.getMarker() &&
-        gameBoard.getBoard()[3] === activePlayer.getMarker() &&
-        gameBoard.getBoard()[5] === activePlayer.getMarker()) // Win condition #8
+      checkWinCondition([0, 1, 2]) || // Win condition #1
+      checkWinCondition([0, 3, 6]) || // Win condition #2
+      checkWinCondition([0, 4, 8]) || // Win condition #3
+      checkWinCondition([2, 5, 8]) || // Win condition #4
+      checkWinCondition([2, 4, 6]) || // Win condition #5
+      checkWinCondition([8, 7, 6]) || // Win condition #6
+      checkWinCondition([4, 1, 7]) || // Win condition #7
+      checkWinCondition([4, 3, 5]) // Win condition #8
     ) {
       boardDom.updateBoard();
       boardDom.displayRoundStatus(`${activePlayer.getName()} Wins!!!`);
@@ -119,7 +109,7 @@ const gameFlow = (() => {
     // returns nothing if cell is not available
     if (!gameBoard.addMarker(activePlayer.getMarker(), boardPosition)) return;
     // check for round end conditions
-    if (checkBoard()) return endRound();
+    if (checkRoundStatus()) return endRound();
     switchTurn();
     boardDom.updateBoard();
   };
